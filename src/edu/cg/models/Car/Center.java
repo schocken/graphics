@@ -19,34 +19,62 @@ public class Center implements IRenderable {
 	
 	@Override
 	public void render(GL2 gl) {
-		// TODO: Render the center of the car.
-	    gl.glPushMatrix();
-	    Materials.SetBlackMetalMaterial(gl);
-	    this.bodyBase.render(gl);
-	    Materials.SetRedMetalMaterial(gl);
-	    gl.glTranslated(0.1015625D, 0.013125000000000001D, 0.0D);
-	    this.frontBox.render(gl);
-	    gl.glPopMatrix();
-	    gl.glPushMatrix();
-	    gl.glTranslated(-0.1015625D, 0.013125000000000001D, 0.0D);
-	    gl.glRotated(180.0D, 0.0D, 1.0D, 0.0D);
-	    this.frontBox.render(gl);
-	    gl.glPopMatrix();
-	    gl.glPushMatrix();
-	    gl.glTranslated(0.0D, 0.013125000000000001D, 0.125D);
-	    gl.glRotated(90.0D, 0.0D, 1.0D, 0.0D);
-	    this.sideBox.render(gl);
-	    gl.glPopMatrix();
-	    gl.glPushMatrix();
-	    gl.glTranslated(0.0D, 0.013125000000000001D, -0.125D);
-	    gl.glRotated(-90.0D, 0.0D, 1.0D, 0.0D);
-	    this.sideBox.render(gl);
-	    gl.glPopMatrix();
-	    Materials.SetBlackMetalMaterial(gl);
-	    gl.glPushMatrix();
-	    gl.glTranslated(-0.03125D, 0.013125000000000001D, 0.0D);
-	    this.backSeatBox.render(gl);
-	    gl.glPopMatrix();
+		// pick base and chair color
+		Materials.SetBlackMetalMaterial(gl);
+		renderBase(gl);
+		renderChair(gl);
+
+		// pick color for center sides
+		Materials.SetRedMetalMaterial(gl);
+		// render side and front boxes
+		renderLeftFrontBox(gl);
+		rightRightFrontBox(gl);
+		renderFrontSide(gl);
+		renderRearSide(gl);
+	}
+
+	private void renderBase(GL2 gl) {
+		gl.glPushMatrix();
+		bodyBase.render(gl);
+		gl.glPopMatrix();
+	}
+
+	private void renderChair(GL2 gl) {
+		gl.glPushMatrix();
+		gl.glTranslated((Specification.C_BACK_LENGTH - Specification.C_BASE_LENGTH) / 2 + Specification.C_FRONT_LENGTH, Specification.C_BASE_HEIGHT, 0);
+		backSeatBox.render(gl);
+		gl.glPopMatrix();
+	}
+
+	private void renderRearSide(GL2 gl) {
+		gl.glPushMatrix();
+		gl.glTranslated(0, Specification.C_BASE_HEIGHT, (Specification.C_SIDE_LENGTH - Specification.C_BASE_DEPTH) / 2);
+		gl.glRotated(-90, 0, 1, 0);
+		sideBox.render(gl);
+		gl.glPopMatrix();
+	}
+
+	private void renderFrontSide(GL2 gl) {
+		gl.glPushMatrix();
+		gl.glTranslated(0, Specification.C_BASE_HEIGHT, (Specification.C_BASE_DEPTH - Specification.C_SIDE_LENGTH) / 2);
+		gl.glRotated(90, 0, 1, 0);
+		sideBox.render(gl);
+		gl.glPopMatrix();
+	}
+
+	private void rightRightFrontBox(GL2 gl) {
+		gl.glPushMatrix();
+		gl.glTranslated((Specification.C_BASE_LENGTH - Specification.C_FRONT_LENGTH) / 2, Specification.C_BASE_HEIGHT, 0);
+		frontBox.render(gl);
+		gl.glPopMatrix();
+	}
+
+	private void renderLeftFrontBox(GL2 gl) {
+		gl.glPushMatrix();
+		gl.glTranslated((Specification.C_FRONT_LENGTH - Specification.C_BASE_LENGTH) / 2, Specification.C_BASE_HEIGHT, 0);
+		gl.glRotated(180, 0, 1, 0);
+		frontBox.render(gl);
+		gl.glPopMatrix();
 	}
 
 	@Override

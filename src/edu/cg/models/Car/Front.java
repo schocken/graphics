@@ -16,30 +16,38 @@ public class Front implements IRenderable {
 
 	@Override
 	public void render(GL2 gl) {
-		// TODO: Render the front of the car.
-	    gl.glPushMatrix();
-	    gl.glTranslated(-0.15D, 0.0D, 0.0D);
-	    gl.glPushMatrix();
-	    Materials.SetRedMetalMaterial(gl);
-	    this.hoodBox1.render(gl);
-	    gl.glTranslated(0.25D, 0.0D, 0.0D);
-	    this.hoodBox2.render(gl);
-	    gl.glTranslated(0.15D, 0.0D, 0.0D);
-	    Materials.SetDarkRedMetalMaterial(gl);
-	    this.bumperBox.render(gl);
-	    Materials.SetRedMetalMaterial(gl);
-	    gl.glPushMatrix();
-	    gl.glTranslated(0.0D, 0.0D, 0.15D);
-	    this.bumperWingsBox.render(gl);
-	    gl.glPopMatrix();
-	    gl.glTranslated(0.0D, 0.0D, -0.15D);
-	    this.bumperWingsBox.render(gl);
-	    gl.glPopMatrix();
-	    gl.glPushMatrix();
-	    gl.glTranslated(0.25D, 0.0375D, 0.0D);
-	    this.wheels.render(gl);
-	    gl.glPopMatrix();
-	    gl.glPopMatrix();
+		// render bumper
+		gl.glPushMatrix();
+		gl.glTranslated((Specification.F_FRONT_LENGTH - Specification.F_BUMPER_LENGTH) / 2, 0, 0);
+		Materials.SetDarkRedMetalMaterial(gl);
+		bumperBox.render(gl);
+		Materials.SetRedMetalMaterial(gl);
+		gl.glTranslated(0, 0, (-1) * (Specification.F_BUMPER_DEPTH + Specification.F_BUMPER_WINGS_DEPTH) / 2);
+
+		// render bumper wings
+		bumperWingsBox.render(gl);
+		gl.glTranslated(0, 0, (Specification.F_BUMPER_DEPTH + Specification.F_BUMPER_WINGS_DEPTH));
+		bumperWingsBox.render(gl);
+		gl.glPopMatrix();
+
+		// pick hoodbox 1 + 2 color
+		Materials.SetRedMetalMaterial(gl);
+
+		// Hoodbox 1
+		gl.glPushMatrix();
+		gl.glTranslated((Specification.F_HOOD_LENGTH_1 - Specification.F_FRONT_LENGTH) / 2, 0, 0);
+		hoodBox1.render(gl);
+		gl.glPopMatrix();
+
+		// Hoodbox 2
+		gl.glPushMatrix();
+		gl.glTranslated((Specification.F_HOOD_LENGTH_2- Specification.F_FRONT_LENGTH) / 2 + Specification.F_HOOD_LENGTH_1, 0, 0);
+		hoodBox2.render(gl);
+
+		// Front pair of wheels
+		wheels.render(gl);
+		gl.glPopMatrix();
+
 	}
 
 	@Override
