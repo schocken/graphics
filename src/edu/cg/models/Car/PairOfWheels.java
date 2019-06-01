@@ -7,8 +7,6 @@ import com.jogamp.opengl.glu.GLUquadric;
 import edu.cg.models.IRenderable;
 
 public class PairOfWheels implements IRenderable {
-	// TODO: Use the wheel field to render the two wheels.
-	private final double WHEEL_PERCENTAGE = 0.3;
 
 	private final Wheel wheel = new Wheel();
 
